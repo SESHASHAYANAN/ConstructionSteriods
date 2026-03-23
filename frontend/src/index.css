@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base Styles ─────────────────────────────────────────────────────────── */
+@layer base {
+  * {
+    @apply border-surface-200;
+  }
+  body {
+    @apply bg-surface-950 text-surface-100 font-sans;
+  }
+}
+
+/* ── Component Styles ────────────────────────────────────────────────────── */
+@layer components {
+  .glass-card {
+    @apply bg-surface-900/60 backdrop-blur-xl border border-surface-700/50 rounded-2xl shadow-xl;
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300 hover:border-brand-500/30 hover:shadow-brand-500/5 hover:shadow-2xl;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl
+      bg-gradient-to-r from-brand-600 to-brand-500
+      text-white font-semibold text-sm
+      shadow-lg shadow-brand-500/25
+      transition-all duration-200
+      hover:shadow-brand-500/40 hover:scale-[1.02]
+      active:scale-[0.98]
+      disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl
+      bg-surface-800 border border-surface-600/50
+      text-surface-200 font-medium text-sm
+      transition-all duration-200
+      hover:bg-surface-700 hover:border-surface-500/50
+      active:scale-[0.98];
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl
+      bg-gradient-to-r from-red-600 to-red-500
+      text-white font-semibold text-sm
+      shadow-lg shadow-red-500/25
+      transition-all duration-200
+      hover:shadow-red-500/40 hover:scale-[1.02]
+      active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl
+      text-surface-300 font-medium text-sm
+      transition-all duration-200
+      hover:bg-surface-800 hover:text-surface-100;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2.5 rounded-xl
+      bg-surface-800/80 border border-surface-600/50
+      text-surface-100 placeholder-surface-500
+      text-sm font-medium
+      transition-all duration-200
+      focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500/60;
+  }
+
+  .badge-critical {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold
+      bg-red-500/15 text-red-400 border border-red-500/25;
+  }
+
+  .badge-major {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold
+      bg-amber-500/15 text-amber-400 border border-amber-500/25;
+  }
+
+  .badge-minor {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold
+      bg-blue-500/15 text-blue-400 border border-blue-500/25;
+  }
+
+  .severity-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold;
+  }
+
+  .tab-btn {
+    @apply px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200
+      text-surface-400 hover:text-surface-100 hover:bg-surface-800;
+  }
+
+  .tab-btn-active {
+    @apply px-4 py-2.5 text-sm font-semibold rounded-lg
+      bg-brand-600/15 text-brand-400 border border-brand-500/25;
+  }
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-surface-700 rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-surface-600;
+}
+
+/* ── PDF Viewer ──────────────────────────────────────────────────────────── */
+.react-pdf__Page {
+  position: relative;
+}
+.react-pdf__Page__canvas {
+  @apply rounded-xl;
+}
+
+/* ── Modal Animations ───────────────────────────────────────────────────── */
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-modal-enter {
+  animation: modalEnter 0.25s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
