@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     jwt_secret: str = ""
     jwt_algorithm: str = "HS256"
     jwt_expire_minutes: int = 480  # 8 hours
+    admin_password: str = "admin123"
 
     # --- File Storage ---
     upload_dir: str = str(Path(__file__).resolve().parent / "uploads")

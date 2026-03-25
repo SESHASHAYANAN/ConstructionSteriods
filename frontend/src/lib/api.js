@@ -68,7 +68,7 @@ export const getFileUrl = (projectId, fileId) =>
   api.get(`/projects/${projectId}/files/${fileId}/url`).then((r) => r.data);
 
 export const exportReport = (projectId) =>
-  api.get(`/projects/${projectId}/report`, { responseType: 'blob' }).then((r) => r.data);
+  api.get(`/export/${projectId}/pdf-advanced`, { responseType: 'blob' }).then((r) => r.data);
 
 /* ── Issues ───────────────────────────────────────────────────────────────── */
 export const updateIssue = (issueId, status) =>

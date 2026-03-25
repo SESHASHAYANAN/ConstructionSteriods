@@ -10,6 +10,7 @@ from fastapi.staticfiles import StaticFiles
 from config import settings
 from routers import auth, projects, issues, spec
 from routers import materials, procurement, compliance
+from routers import report_export, build_scratch, ai_design
 
 # ── Logging ──────────────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -41,6 +42,9 @@ app.include_router(spec.router)
 app.include_router(materials.router)
 app.include_router(procurement.router)
 app.include_router(compliance.router)
+app.include_router(report_export.router)
+app.include_router(build_scratch.router)
+app.include_router(ai_design.router)
 
 # ── Static file serving for uploads ──────────────────────────────────────────
 uploads_path = Path(settings.upload_dir)

@@ -300,3 +300,68 @@ def update_settings(project_id: str, body: dict, _: dict = Depends(get_current_u
         raise HTTPException(status_code=404, detail="Project not found")
     store.project_settings[project_id] = body
     return body
+
+
+# ── Enhanced Spec Generation ─────────────────────────────────────────────────
+
+from pydantic import BaseModel as _BaseModel
+from typing import Optional as _Optional
+
+
+class EnhancedSpecRequest(_BaseModel):
+    project_id: str
+    discipline: str
+    include_material_details: bool = True
+    include_tolerances: bool = True
+    include_standards: bool = True
+
+
+@router.post("/spec/generate-enhanced")
+async def generate_enhanced_spec(req: EnhancedSpecRequest, _user: dict = Depends(get_current_user)):
+    """Generate an enhanced structured specification with materials, tolerances, and standards."""
+
+    project = store.projects.get(req.project_id)
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+
+    # Build project context
+    project_issues = store.get_project_issues(req.project_id)
+    context_parts = [
+        f"Project: {project.get('name', 'N/A')}",
+        f"Description: {project.get('description', 'N/A')}",
+        f"Issues found: {len(project_issues)}",
+    ]
+    building_codes = project.get("building_codes", [])
+    settings_data = store.project_settings.get(req.project_id, {})
+    if settings_data.get("building_codes"):
+        building_codes = settings_data["building_codes"]
+
+    project_context = "\n".join(context_parts)
+
+    try:
+        from services.spec_enhanced import generate_structured_spec, spec_markdown_to_docx
+
+        spec_md = await generate_structured_spec(
+            project_name=project.get("name", "Unnamed"),
+            discipline=req.discipline,
+            project_context=project_context,
+            building_codes=building_codes,
+            include_material_details=req.include_material_details,
+            include_tolerances=req.include_tolerances,
+            include_standards=req.include_standards,
+        )
+
+        docx_bytes = spec_markdown_to_docx(spec_md, req.discipline, project.get("name", "Unnamed"))
+
+        from fastapi.responses import Response as _Response
+
+        safe_name = req.discipline.replace(" ", "_")
+        return _Response(
+            content=docx_bytes,
+            media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            headers={"Content-Disposition": f'attachment; filename="{safe_name}_Enhanced_Spec.docx"'},
+        )
+    except Exception as exc:
+        logger.error("Enhanced spec generation failed: %s", exc)
+        raise HTTPException(status_code=502, detail=f"Enhanced spec generation failed: {str(exc)[:200]}")
+

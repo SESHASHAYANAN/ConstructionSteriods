@@ -7,6 +7,7 @@ from datetime import datetime
 from typing import Any
 
 import bcrypt
+from config import settings
 
 
 def _hash_password(password: str) -> str:
@@ -19,7 +20,7 @@ def verify_password(password: str, hashed: str) -> bool:
 
 # ── Seed Data ────────────────────────────────────────────────────────────────
 
-_DEFAULT_PASSWORD = _hash_password("admin123")
+_DEFAULT_PASSWORD = _hash_password(settings.admin_password)
 
 users: dict[str, dict[str, Any]] = {
     "u1": {

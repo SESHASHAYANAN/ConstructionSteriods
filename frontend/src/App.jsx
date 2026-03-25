@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, FolderOpen, FileText, Settings, LogOut, Shield,
-  FlaskConical, ShoppingCart, ShieldAlert
+  FlaskConical, ShoppingCart, ShieldAlert, Building2, Sparkles, PencilRuler
 } from 'lucide-react';
 import { useAuthStore } from './stores';
 import { getMe } from './lib/api';
@@ -16,6 +16,9 @@ import SettingsPage from './pages/SettingsPage';
 import MaterialAnalysisPage from './pages/MaterialAnalysisPage';
 import ProcurementPage from './pages/ProcurementPage';
 import CompliancePage from './pages/CompliancePage';
+import BuildScratchPage from './pages/BuildScratchPage';
+import AIDesignPage from './pages/AIDesignPage';
+import EnhancedSpecPage from './pages/EnhancedSpecPage';
 
 /* ── Auth Guard ──────────────────────────────────────────────────────────── */
 function ProtectedRoute({ children }) {
@@ -31,6 +34,9 @@ const NAV_ITEMS = [
   { to: '/procurement', icon: ShoppingCart, label: 'Procurement' },
   { to: '/compliance', icon: ShieldAlert, label: 'Code Compliance' },
   { to: '/spec-generator', icon: FileText, label: 'Spec Generator' },
+  { to: '/enhanced-spec', icon: PencilRuler, label: 'Enhanced Spec' },
+  { to: '/build-scratch', icon: Building2, label: 'Build Scratch' },
+  { to: '/ai-design', icon: Sparkles, label: 'AI Design' },
   { to: '/settings', icon: Settings, label: 'Settings' },
 ];
 
@@ -140,6 +146,9 @@ export default function App() {
                   <Route path="/procurement" element={<ProcurementPage />} />
                   <Route path="/compliance" element={<CompliancePage />} />
                   <Route path="/spec-generator" element={<SpecGeneratorPage />} />
+                  <Route path="/enhanced-spec" element={<EnhancedSpecPage />} />
+                  <Route path="/build-scratch" element={<BuildScratchPage />} />
+                  <Route path="/ai-design" element={<AIDesignPage />} />
                   <Route path="/settings" element={<SettingsPage />} />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>

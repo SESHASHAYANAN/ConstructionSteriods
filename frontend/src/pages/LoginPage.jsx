@@ -21,7 +21,6 @@ export default function LoginPage() {
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: 'admin@constructai.com', password: 'admin123' },
   });
 
   const onSubmit = async (data) => {

@@ -22,7 +22,7 @@ from services.agents import (
     run_groq_agent, run_openai_agent, run_vision_agent,
     run_summary_agent, deduplicate_findings,
 )
-from services.report import generate_issue_report_pdf, generate_issue_report_docx
+from services.report import generate_issue_report_docx
 import store
 
 router = APIRouter(prefix="/projects", tags=["Projects"])
@@ -501,29 +501,6 @@ def get_rfis(project_id: str, _: dict = Depends(get_current_user)):
         raise HTTPException(status_code=404, detail="Project not found")
     return store.get_project_rfis(project_id)
 
-
-@router.get("/{project_id}/report")
-def export_report(project_id: str, user: dict = Depends(get_current_user)):
-    if project_id not in store.projects:
-        raise HTTPException(status_code=404, detail="Project not found")
-    project = store.projects[project_id]
-    issues = store.get_project_issues(project_id)
-    review = store.project_reviews.get(project_id, {})
-    summary = review.get("summary")
-    pdf_bytes = generate_issue_report_pdf(project["name"], issues, summary=summary)
-
-    store.add_audit_log(
-        project_id=project_id,
-        action="report_exported",
-        user_email=user.get("email", ""),
-        details="PDF report exported",
-    )
-
-    return Response(
-        content=pdf_bytes,
-        media_type="application/pdf",
-        headers={"Content-Disposition": f'attachment; filename="{project["name"]}_report.pdf"'},
-    )
 
 
 @router.get("/{project_id}/report/docx")

@@ -15,7 +15,7 @@ import {
 import { useUIStore } from '../stores';
 import { severityColor, statusColor, downloadBlob } from '../lib/utils';
 import IssuePanel from '../components/IssuePanel';
-import IssueDetailModal from '../components/IssueDetailModal';
+import EnhancedIssueModal from '../components/EnhancedIssueModal';
 
 const TABS = ['Drawings', 'Issues', 'NCR Log', 'RFI Log', 'Reports'];
 
@@ -301,7 +301,7 @@ export default function ProjectPage() {
   return (
     <div className="space-y-6 animate-fade-in">
       <IssuePanel projectId={id} />
-      <IssueDetailModal projectId={id} />
+      <EnhancedIssueModal projectId={id} />
 
       {/* Header */}
       <div className="flex items-center gap-4">
